@@ -1,4 +1,5 @@
 accessibility: Hidden
+comment: Call the AWS Market place register usage API and get A JWT Token
 ↓Perform [steps.SimpleStep-1742711977144]: 
   expression: |
     '// Import Java classes using JavaImporter

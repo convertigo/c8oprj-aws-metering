@@ -22,20 +22,20 @@ does nothing
 <details><summary><span style="color:DarkGoldenRod"><i>Sequences</i></span></summary><blockquote><p>
 
 
-<details><summary><b>CheckEntitlement</b></summary><blockquote><p>
+<details><summary><b>CheckEntitlement</b> : Check if this project runs on a AWS Marketaplce and has been registered</summary><blockquote><p>
 
 
 ## ![](https://github.com/convertigo/convertigo/blob/develop/engine/src/com/twinsoft/convertigo/beans/sequences/images/genericsequence_color_16x16.png?raw=true "GenericSequence") CheckEntitlement
 
-
+Check if this project runs on a AWS Marketaplce and has been registered
 </p></blockquote></details>
 
-<details><summary><b>CheckJWT</b></summary><blockquote><p>
+<details><summary><b>CheckJWT</b> : Check the JWT Token with the marketplace public key</summary><blockquote><p>
 
 
 ## ![](https://github.com/convertigo/convertigo/blob/develop/engine/src/com/twinsoft/convertigo/beans/sequences/images/genericsequence_color_16x16.png?raw=true "GenericSequence") CheckJWT
 
-
+Check the JWT Token with the marketplace public key
 
 <span style="color:DarkGoldenRod">Variables</span>
 
@@ -60,12 +60,12 @@ comment
 
 </p></blockquote></details>
 
-<details><summary><b>RegisterUsage</b></summary><blockquote><p>
+<details><summary><b>RegisterUsage</b> : Call the AWS Market place register usage API and get A JWT Token</summary><blockquote><p>
 
 
 ## ![](https://github.com/convertigo/convertigo/blob/develop/engine/src/com/twinsoft/convertigo/beans/sequences/images/genericsequence_color_16x16.png?raw=true "GenericSequence") RegisterUsage
 
-
+Call the AWS Market place register usage API and get A JWT Token
 </p></blockquote></details>
 
 <details><summary><b>ReportUsageToAWSMarketPlace</b></summary><blockquote><p>
