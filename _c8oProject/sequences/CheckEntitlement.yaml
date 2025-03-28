@@ -1,0 +1,22 @@
+↓Call_Sequence [steps.SequenceStep-1742834759109]: 
+  sourceSequence: AwsMetering.RegisterUsage
+↓Call_Sequence1 [steps.SequenceStep-1742834775392]: 
+  sourceSequence: AwsMetering.CheckJWT
+  ↓JWT [variables.StepVariable-1742834775394]: 
+    sourceDefinition: 
+      - xmlizable: 
+        - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+        - com.twinsoft.convertigo.beans.common.XMLVector: 
+          - java.lang.String: 
+            - ↑value: 1742834759109
+          - java.lang.String: 
+            - ↑value: ./document/JWT/text()
+↓Copy [steps.XMLCopyStep-1742835993634]: 
+  sourceDefinition: 
+    - xmlizable: 
+      - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+      - com.twinsoft.convertigo.beans.common.XMLVector: 
+        - java.lang.String: 
+          - ↑value: 1742834775392
+        - java.lang.String: 
+          - ↑value: ./document/object

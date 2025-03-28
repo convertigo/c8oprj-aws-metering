@@ -1,0 +1,91 @@
+accessibility: Hidden
+↓CheckJWT [steps.SimpleStep-1742834598690]: 
+  expression: |
+    '// Import Java libraries
+    var Base64 = use("java.util.Base64");
+    var KeyFactory = use("java.security.KeyFactory");
+    var Signature = use("java.security.Signature");
+    var X509EncodedKeySpec = use("java.security.spec.X509EncodedKeySpec");
+    var StandardCharsets = use("java.nio.charset.StandardCharsets");
+    var PSSParameterSpec = use("java.security.spec.PSSParameterSpec");
+    var MGF1ParameterSpec = use("java.security.spec.MGF1ParameterSpec");
+    
+    
+    // Function to Base64URL decode
+    function base64UrlDecode(input) {
+        var padLength = (4 - input.length % 4) % 4;
+        input = input.replace(/-/g, ''+'').replace(/_/g, ''/'') + "=".repeat(padLength);
+        return Base64.getDecoder().decode(input);
+    }
+    
+    
+    // Function to verify PS256 JWT
+    function verifyPS256JWT(jwt, publicKeyPEM) {
+        var parts = jwt.split(".");
+        if (parts.length !== 3) {
+            throw new Error("Invalid JWT format");
+        }
+    
+        var header = new java.lang.String(base64UrlDecode(parts[0]), StandardCharsets.UTF_8);
+        var payload = new java.lang.String(base64UrlDecode(parts[1]), StandardCharsets.UTF_8);
+        var signature = base64UrlDecode(parts[2]);
+    
+        // Convert PEM to PublicKey
+        var publicKeyPEMFormatted = publicKeyPEM
+            .replace("-----BEGIN PUBLIC KEY-----", "")
+            .replace("-----END PUBLIC KEY-----", "")
+            .replace(/\s+/g, ""); // Remove PEM headers and newlines
+    
+        var publicKeyBytes = Base64.getDecoder().decode(publicKeyPEMFormatted);
+        var keySpec = new X509EncodedKeySpec(publicKeyBytes);
+        var keyFactory = KeyFactory.getInstance("RSA");
+        var publicKey = keyFactory.generatePublic(keySpec);
+    
+        // Initialize Signature Verifier for PS256
+        var verifier = Signature.getInstance("RSASSA-PSS");
+        verifier.setParameter(new PSSParameterSpec("SHA-256", "MGF1", MGF1ParameterSpec.SHA256, 32, 1));
+        verifier.initVerify(publicKey);
+        verifier.update(new java.lang.String(parts[0] + "." + parts[1]).getBytes(StandardCharsets.UTF_8));
+    
+        // Verify Signature
+        var isValid = verifier.verify(signature);
+    
+        return {
+            valid: isValid,
+            header: JSON.parse(header),
+            payload: JSON.parse(payload)
+        };
+    }
+    
+    
+    var jwtToken = JWT
+    var publicKeyPem = `
+    -----BEGIN PUBLIC KEY-----
+    MIIBojANBgkqhkiG9w0BAQEFAAOCAY8AMIIBigKCAYEAywJgB0kL2jU5h09tju3V
+    UoTVIzI9r3uIUdq5ftPRQK46nNfGue7UT2lqI1299kct9FodrXCVP9ThRHvUBtZU
+    d6HVnGxdlC0OjCWnQkbsGeD+SUSB73OJ5/rCAb4V9KcoFP4BoTHglbenB2gT6rl7
+    cYtQDr5KC6/JVoUPC7Dm29dlSJk9K4AsMdwaRg8GEgAy8iTVDH1F4zS3JmkQXH5W
+    slUDUXp2Z2QCCe8+NDxQ5+CQcR/g9PUxYKYmoNIiOf8lLp3+vf+gBGu7nwmiIU2j
+    3/1jtDqjNFQ1B8F8U/fYSn9gHGdOkaDE4yo+BQl6ntcctCzvDTy8QT+GVKlq5Egr
+    oEjHcklZ2otM25tfzF2mWnx3vvNWfi6Yt3O/iavoYkc4Jj4uFCv1lNHcxg7of40s
+    Q7rdsOYcoi+dCsWWCLjHYToefZfQzeHww0bdcnrk4LZ8u8esH1qNY+xI7X7z9bjG
+    /F3PK0y1bJC8G6XNNSB9d/B7LYGM9wCcV9yhUZlIkQxHAgMBAAE=
+    -----END PUBLIC KEY-----
+    `;
+    
+    result = verifyPS256JWT(jwtToken, publicKeyPem);
+    '
+↓object [steps.JsonToXmlStep-1742835963019]: 
+  jsonObject: 
+    - xmlizable: 
+      - ↑classname: com.twinsoft.convertigo.beans.steps.SmartType
+      - SmartType: 
+        - ↑mode: JS
+        - →→: result
+  key: 
+    - xmlizable: 
+      - ↑classname: com.twinsoft.convertigo.beans.steps.SmartType
+      - SmartType: 
+        - ↑mode: PLAIN
+        - →→: JWT
+↓JWT [variables.RequestableVariable-1742834577197]: 
