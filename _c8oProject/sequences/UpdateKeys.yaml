@@ -1,0 +1,56 @@
+accessibility: Private
+↓UpdateKeys [steps.SimpleStep-1744798575031]: 
+  expression: |
+    'with (new JavaImporter(
+    	com.twinsoft.convertigo.engine.EnginePropertiesManager,
+    	com.twinsoft.convertigo.engine.util.PropertiesUtils,
+    	com.twinsoft.tas.KeyManager,
+    	com.twinsoft.util.TWSKey,
+    	java.util.Properties
+    )) {
+    	// ''keys'' should exist in scope, an array of strings (new keys)
+    	const tasPath = EnginePropertiesManager.getProperty(EnginePropertiesManager.PropertyName.CARIOCA_URL) + "/Java/keys.txt";
+    	
+    	// Load the current keys (to be removed)
+    	var oldKeys;
+    	try {
+    		oldKeys = PropertiesUtils.load(tasPath);
+    	} catch (e) {
+    		oldKeys = new Properties();
+    	}
+    	
+    	// Create a new empty Properties object to store new keys
+    	const newKeys = new Properties();
+    	
+    	// Add new keys from the array ''keys''
+    	for (var i = 0; i < keys.length; i++) {
+    		var newKey = keys[i];
+    		try {
+    			var twsKey = new TWSKey();
+    			twsKey.CreateKey(52);
+    			var keyInfos = twsKey.decypherbis(newKey);
+    			KeyManager.addKey(newKey, keyInfos);
+    			log.info("key added: " + newKey);
+    		} catch (e) {
+    			// Log or handle invalid key error
+    			// e.printStackTrace(); // if logging is needed
+    		}
+    		newKeys.setProperty(newKey, "");
+    	}
+    	
+    	// Remove each old key
+    	for (var oldKeyEnum = oldKeys.propertyNames(); oldKeyEnum.hasMoreElements();) {
+    		var oldKey = oldKeyEnum.nextElement();
+    		KeyManager.removeKey(oldKey);
+    		log.info("key removed: " + oldKey);
+    	}
+    	
+    	// Save the new keys to the file
+    	PropertiesUtils.store(newKeys, tasPath);
+    }
+    '
+↓keys [variables.RequestableMultiValuedVariable-1744801009036]: 
+  value: 
+    - xmlizable: 
+      - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+      - com.twinsoft.convertigo.beans.common.XMLVector: 

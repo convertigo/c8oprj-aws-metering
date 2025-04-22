@@ -1,9 +1,42 @@
+accessibility: Private
 comment: Check if this project runs on a AWS Marketaplce and has been registered
+↓Init [steps.SimpleStep-1745328392925]: 
+  expression: |
+    const format = new java.text.SimpleDateFormat("yyyy-MM-dd");
+    const first = java.util.Calendar.getInstance();
+    first.set(java.util.Calendar.DAY_OF_MONTH, 1);
+    startDate = format.format(first.getTime());
+    endDate = format.format(java.util.Calendar.getInstance().getTime());
+↓Call_Transaction [steps.TransactionStep-1745327925143]: 
+  sourceTransaction: AwsMetering.billing.CountUsers
+  ↓startDate [variables.StepVariable-1745327925145]: 
+    comment: A start date in the YYYY-MM-DD format
+    description: startDate
+    value: 
+  ↓endDate [variables.StepVariable-1745327925147]: 
+    comment: An end date in the YYYY-MM-DD format
+    description: endDate
+↓Call_Sequence2 [steps.SequenceStep-1745327960565]: 
+  sourceSequence: AwsMetering.ReportUsageToAWSMarketPlace
+  ↓dimension [variables.StepVariable-1745327960567]: 
+    value: USERS
+  ↓usageQuantity [variables.StepVariable-1745327960569]: 
+    sourceDefinition: 
+      - xmlizable: 
+        - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+        - com.twinsoft.convertigo.beans.common.XMLVector: 
+          - java.lang.String: 
+            - ↑value: 1745327925143
+          - java.lang.String: 
+            - ↑value: ./document/sql_output/row[last()]/CumulativeDistinctUsers/text()
+    value: 0
 ↓Call_Sequence [steps.SequenceStep-1742834759109]: 
   sourceSequence: AwsMetering.RegisterUsage
-↓Call_Sequence1 [steps.SequenceStep-1742834775392]: 
-  sourceSequence: AwsMetering.CheckJWT
-  ↓JWT [variables.StepVariable-1742834775394]: 
+↓Call_Sequence3 [steps.SequenceStep-1745328064179]: 
+  sourceSequence: AwsMetering.MakeJWE
+  ↓version [variables.StepVariable-1745328064181]: 
+    value: 1
+  ↓JWT [variables.StepVariable-1745328064183]: 
     sourceDefinition: 
       - xmlizable: 
         - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
@@ -12,12 +45,70 @@ comment: Check if this project runs on a AWS Marketaplce and has been registered
             - ↑value: 1742834759109
           - java.lang.String: 
             - ↑value: ./document/JWT/text()
-↓Copy [steps.XMLCopyStep-1742835993634]: 
+  ↓recordId [variables.StepVariable-1745328064185]: 
+    sourceDefinition: 
+      - xmlizable: 
+        - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+        - com.twinsoft.convertigo.beans.common.XMLVector: 
+          - java.lang.String: 
+            - ↑value: 1745327960565
+          - java.lang.String: 
+            - ↑value: ./document/recordId/text()
+  ↓dimension [variables.StepVariable-1745328064187]: 
+    value: USERS
+  ↓usageQuantity [variables.StepVariable-1745328064189]: 
+    sourceDefinition: 
+      - xmlizable: 
+        - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+        - com.twinsoft.convertigo.beans.common.XMLVector: 
+          - java.lang.String: 
+            - ↑value: 1745327925143
+          - java.lang.String: 
+            - ↑value: ./document/sql_output/row[last()]/CumulativeDistinctUsers/text()
+    value: 0
+↓Call_Transaction1 [steps.TransactionStep-1745329362947]: 
+  sourceTransaction: AwsMetering.HTTP.Report
+  ↓sequence [variables.StepVariable-1745329362949]: 
+    value: Report
+  ↓JWE [variables.StepVariable-1745329362951]: 
+    sourceDefinition: 
+      - xmlizable: 
+        - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+        - com.twinsoft.convertigo.beans.common.XMLVector: 
+          - java.lang.String: 
+            - ↑value: 1745328064179
+          - java.lang.String: 
+            - ↑value: ./document/JWE/text()
+  ↓version [variables.StepVariable-1745329892142]: 
+    sourceDefinition: 
+      - xmlizable: 
+        - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+        - com.twinsoft.convertigo.beans.common.XMLVector: 
+          - java.lang.String: 
+            - ↑value: 1745328064179
+          - java.lang.String: 
+            - ↑value: ./document/version/text()
+↓IfExist [steps.IfExistStep-1745333062746]: 
   sourceDefinition: 
     - xmlizable: 
       - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
       - com.twinsoft.convertigo.beans.common.XMLVector: 
         - java.lang.String: 
-          - ↑value: 1742834775392
+          - ↑value: 1745329362947
         - java.lang.String: 
-          - ↑value: ./document/object
+          - ↑value: .//keys
+  ↓Call_Sequence1 [steps.SequenceStep-1745333104702]: 
+    sourceSequence: AwsMetering.UpdateKeys
+    ↓keys [variables.StepMultiValuedVariable-1745333104704]: 
+      sourceDefinition: 
+        - xmlizable: 
+          - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+          - com.twinsoft.convertigo.beans.common.XMLVector: 
+            - java.lang.String: 
+              - ↑value: 1745329362947
+            - java.lang.String: 
+              - ↑value: .//keys//text()
+      value: 
+        - xmlizable: 
+          - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+          - com.twinsoft.convertigo.beans.common.XMLVector: 

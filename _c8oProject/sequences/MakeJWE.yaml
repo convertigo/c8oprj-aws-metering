@@ -1,0 +1,80 @@
+accessibility: Private
+↓MakeJWE [steps.SimpleStep-1745317567233]: 
+  expression: |
+    'with (new JavaImporter(
+    	java.nio.file.Files,
+    	java.nio.file.Paths,
+    	java.security.KeyFactory,
+    	java.security.spec.X509EncodedKeySpec,
+    	java.util.Base64,
+    	com.nimbusds.jose.EncryptionMethod,
+    	com.nimbusds.jose.JWEAlgorithm,
+    	com.nimbusds.jose.JWEHeader,
+    	com.nimbusds.jose.JWEObject,
+    	com.nimbusds.jose.Payload,
+    	com.nimbusds.jose.crypto.RSAEncrypter,
+    	com.nimbusds.jose.util.Base64URL,
+    	com.nimbusds.jwt.JWTClaimsSet
+    )) {
+    	const publicKeyB64 = Files.readString(Paths.get(context.project.getDirPath(), "1-pub.pem"));
+    	
+    	const cleaned = publicKeyB64
+    		.replace("-----BEGIN PUBLIC KEY-----", "")
+    		.replace("-----END PUBLIC KEY-----", "")
+    		.replaceAll("\\s+", "");
+    	const decoded = Base64.getDecoder().decode(cleaned);
+    	const keySpec = new X509EncodedKeySpec(decoded);
+    	const publicKey = KeyFactory.getInstance("RSA").generatePublic(keySpec);
+    	
+    	const header = new JWEHeader.Builder(JWEAlgorithm.RSA_OAEP_256, EncryptionMethod.A256GCM)
+    		.contentType("application/json")
+    		.build();
+    	const payload = new Payload(JSON.stringify({
+    		version: version,
+    		JWT: JWT,
+    		recordId: recordId,
+    		dimension: dimension,
+    		usageQuantity: usageQuantity,
+    		awsRegion: java.lang.System.getenv("AWS_REGION"),
+    		awsRoleArn: java.lang.System.getenv("AWS_ROLE_ARN"),
+    		convertigo: com.twinsoft.convertigo.engine.ProductVersion.fullProductVersion
+    	}));
+    	const jweObject = new JWEObject(header, payload);
+    	jweObject.encrypt(new RSAEncrypter(publicKey));
+    	JWE = jweObject.serialize();
+    }
+    '
+↓JWE [steps.JsonFieldStep-1745317924168]: 
+  key: 
+    - xmlizable: 
+      - ↑classname: com.twinsoft.convertigo.beans.steps.SmartType
+      - SmartType: 
+        - ↑mode: PLAIN
+        - →→: JWE
+  value: 
+    - xmlizable: 
+      - ↑classname: com.twinsoft.convertigo.beans.steps.SmartType
+      - SmartType: 
+        - ↑mode: JS
+        - →→: JWE
+↓version [steps.JsonFieldStep-1745329870479]: 
+  key: 
+    - xmlizable: 
+      - ↑classname: com.twinsoft.convertigo.beans.steps.SmartType
+      - SmartType: 
+        - ↑mode: PLAIN
+        - →→: version
+  value: 
+    - xmlizable: 
+      - ↑classname: com.twinsoft.convertigo.beans.steps.SmartType
+      - SmartType: 
+        - ↑mode: JS
+        - →→: version
+↓version [variables.RequestableVariable-1745325307997]: 
+  value: 1
+↓JWT [variables.RequestableVariable-1745325330677]: 
+↓recordId [variables.RequestableVariable-1745325361318]: 
+↓dimension [variables.RequestableVariable-1745325441185]: 
+  value: USER
+↓usageQuantity [variables.RequestableVariable-1745325441188]: 
+  value: 0

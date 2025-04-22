@@ -1,0 +1,12 @@
+↓Report [transactions.JsonHttpTransaction-1745329162386]: 
+  ↑default: true
+  httpVerb: POST
+  subDir: ${metering.url=https://c8ocloud.convertigo.net/convertigo/projects/AwsMeteringCloud/.json}
+  ↓sequence [variables.RequestableHttpVariable-1745329294501]: 
+    httpMethod: POST
+    httpName: __sequence
+    value: Report
+  ↓JWE [variables.RequestableHttpVariable-1745329343150]: 
+    httpMethod: POST
+  ↓version [variables.RequestableHttpVariable-1745329807285]: 
+    httpMethod: POST

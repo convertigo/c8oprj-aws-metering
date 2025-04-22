@@ -12,8 +12,10 @@ For more technical informations : [documentation](./project.md)
 - [Sequences](#sequences)
     - [CheckEntitlement](#checkentitlement)
     - [CheckJWT](#checkjwt)
+    - [MakeJWE](#makejwe)
     - [RegisterUsage](#registerusage)
     - [ReportUsageToAWSMarketPlace](#reportusagetoawsmarketplace)
+    - [UpdateKeys](#updatekeys)
 
 
 ## Installation
@@ -29,13 +31,13 @@ For more technical informations : [documentation](./project.md)
      <tr><td>To contribute</td><td>
 
      ```
-     AwsMetering=https://github.com/convertigo/c8oprj-aws-metering.git:branch=master
+     AwsMetering=git@github.com:convertigo/c8oprj-aws-metering.git:branch=master
      ```
      </td></tr>
      <tr><td>To simply use</td><td>
 
      ```
-     AwsMetering=https://github.com/convertigo/c8oprj-aws-metering/archive/master.zip
+     AwsMetering=git@github.com:convertigo/c8oprj-aws-metering/archive/master.zip
      ```
      </td></tr>
     </table>
@@ -63,11 +65,63 @@ Check the JWT Token with the marketplace public key
 </tr>
 </table>
 
+### MakeJWE
+
+**variables**
+
+<table>
+<tr>
+<th>name</th><th>comment</th>
+</tr>
+<tr>
+<td>dimension</td><td></td>
+</tr>
+<tr>
+<td>JWT</td><td></td>
+</tr>
+<tr>
+<td>recordId</td><td></td>
+</tr>
+<tr>
+<td>usageQuantity</td><td></td>
+</tr>
+<tr>
+<td>version</td><td></td>
+</tr>
+</table>
+
 ### RegisterUsage
 
 Call the AWS Market place register usage API and get A JWT Token
 
 ### ReportUsageToAWSMarketPlace
+
+**variables**
+
+<table>
+<tr>
+<th>name</th><th>comment</th>
+</tr>
+<tr>
+<td>dimension</td><td></td>
+</tr>
+<tr>
+<td>usageQuantity</td><td></td>
+</tr>
+</table>
+
+### UpdateKeys
+
+**variables**
+
+<table>
+<tr>
+<th>name</th><th>comment</th>
+</tr>
+<tr>
+<td>keys</td><td></td>
+</tr>
+</table>
 
 
 

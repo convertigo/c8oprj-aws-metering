@@ -1,4 +1,4 @@
-accessibility: Hidden
+accessibility: Private
 comment: Check the JWT Token with the marketplace public key
 ↓CheckJWT [steps.SimpleStep-1742834598690]: 
   expression: |

@@ -1,40 +1,41 @@
-accessibility: Hidden
+accessibility: Private
 comment: Call the AWS Market place register usage API and get A JWT Token
 ↓Perform [steps.SimpleStep-1742711977144]: 
   expression: |
     '// Import Java classes using JavaImporter
     var AWS = new JavaImporter(
-        Packages.software.amazon.awssdk.services.marketplacemetering,
-        Packages.software.amazon.awssdk.services.marketplacemetering.model,
-        Packages.software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider,
-        Packages.software.amazon.awssdk.regions.Region
+    	Packages.software.amazon.awssdk.services.marketplacemetering,
+    	Packages.software.amazon.awssdk.services.marketplacemetering.model,
+    	Packages.software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider,
+    	Packages.software.amazon.awssdk.regions.Region
     );
     
     with (AWS) {
-        try {
-            // Create AWS Marketplace Metering Client
-            var meteringClient = MarketplaceMeteringClient.builder()
-                .credentialsProvider(DefaultCredentialsProvider.create())
-                .build();
+    	try {
+    		// Create AWS Marketplace Metering Client
+    		var meteringClient = MarketplaceMeteringClient.builder()
+    			.credentialsProvider(DefaultCredentialsProvider.create())
+    			.build();
     
-            // Create RegisterUsage request
-            var request = RegisterUsageRequest.builder()
-                .productCode("efv6fuepg1ujvznefwfnbxoqe")  	// Replace with actual product code
-                .publicKeyVersion(1)               			// Replace with correct key version
-                .build();
+    		// Create RegisterUsage request
+    		var request = RegisterUsageRequest.builder()
+    			.productCode("efv6fuepg1ujvznefwfnbxoqe")  	// Replace with actual product code
+    			.publicKeyVersion(1)               			// Replace with correct key version
+    			.build();
     
-            // Call RegisterUsage API
-            var response = meteringClient.registerUsage(request);
+    		// Call RegisterUsage API
+    		var response = meteringClient.registerUsage(request);
     
-            // Print response
-            log.warn("RegisterUsage successful: " + response.toString());
+    		// Print response
+    		log.warn("RegisterUsage successful: " + response.toString());
     		JWT = response.signature();
     
-            // Close the client
-            meteringClient.close();
-        } catch (e) {
-            log.error("RegisterUsage failed: " + e);
-        }
+    		// Close the client
+    		meteringClient.close();
+    	} catch (e) {
+    		log.error("RegisterUsage failed: " + e);
+    		JWT = "failed";
+    	}
     }
     '
 ↓JWT [steps.JsonFieldStep-1742834305835]: 

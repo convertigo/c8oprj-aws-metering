@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:AwsMetering_ns="http://www.convertigo.com/convertigo/projects/AwsMetering" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://www.convertigo.com/convertigo/projects/AwsMetering">
+    <xsd:element name="billing__CountUsers" type="AwsMetering_ns:billing__CountUsersRequestData">
+        <xsd:annotation>
+            <xsd:documentation><![CDATA[Count users on a day by day basis with new added users and cumulated users
+]]></xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+    <xsd:element name="billing__CountUsersResponse">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="response" type="AwsMetering_ns:billing__CountUsersResponseData"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:complexType name="billing__CountUsersResponseType">
+        <xsd:sequence>
+            <xsd:element name="document" type="AwsMetering_ns:billing__CountUsersResponseData"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="billing__CountUsersRequestData">
+        <xsd:sequence>
+            <xsd:element name="startDate" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation><![CDATA[A start date in the YYYY-MM-DD format]]></xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="endDate" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation><![CDATA[An end date in the YYYY-MM-DD format]]></xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="billing_CountUsers_document_sql_output_row_DayType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute default="string" name="type" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="billing_CountUsers_document_sql_output_row_DailyDistinctUsersType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute default="string" name="type" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="billing_CountUsers_document_sql_output_row_CumulativeDistinctUsersType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute default="string" name="type" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="billing_CountUsers_document_sql_output_row_NowType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute default="string" name="type" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="billing_CountUsers_document_sql_output_rowType">
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="Day" type="AwsMetering_ns:billing_CountUsers_document_sql_output_row_DayType"/>
+            <xsd:element minOccurs="0" name="DailyDistinctUsers" type="AwsMetering_ns:billing_CountUsers_document_sql_output_row_DailyDistinctUsersType"/>
+            <xsd:element minOccurs="0" name="CumulativeDistinctUsers" type="AwsMetering_ns:billing_CountUsers_document_sql_output_row_CumulativeDistinctUsersType"/>
+            <xsd:element minOccurs="0" name="Now" type="AwsMetering_ns:billing_CountUsers_document_sql_output_row_NowType"/>
+        </xsd:sequence>
+        <xsd:attribute default="object" name="type" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="billing_CountUsers_document_sql_outputType">
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="row" type="AwsMetering_ns:billing_CountUsers_document_sql_output_rowType"/>
+        </xsd:sequence>
+        <xsd:attribute default="array" name="type" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="billing__CountUsersResponseData">
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="sql_output" type="AwsMetering_ns:billing_CountUsers_document_sql_outputType"/>
+            <xsd:element minOccurs="0" name="error" type="AwsMetering_ns:ConvertigoError"/>
+        </xsd:sequence>
+        <xsd:attribute name="connector" type="xsd:string"/>
+        <xsd:attribute name="context" type="xsd:string"/>
+        <xsd:attribute name="contextId" type="xsd:string"/>
+        <xsd:attribute name="fromStub" type="xsd:boolean"/>
+        <xsd:attribute name="fromcache" type="xsd:boolean"/>
+        <xsd:attribute name="generated" type="xsd:string"/>
+        <xsd:attribute name="project" type="xsd:string"/>
+        <xsd:attribute name="sequence" type="xsd:string"/>
+        <xsd:attribute name="signature" type="xsd:long"/>
+        <xsd:attribute name="transaction" type="xsd:string"/>
+        <xsd:attribute name="version" type="xsd:string"/>
+        <xsd:attribute name="screenclass" type="xsd:string"/>
+        <xsd:attribute name="userReference" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="ConvertigoErrorContextVariable">
+        <xsd:attribute name="name" type="xsd:string"/>
+        <xsd:attribute name="value" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="ConvertigoErrorContext">
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="variable" type="AwsMetering_ns:ConvertigoErrorContextVariable"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ConvertigoError">
+        <xsd:sequence minOccurs="0">
+            <xsd:element name="code" type="xsd:integer"/>
+            <xsd:element name="message" type="xsd:string"/>
+            <xsd:element name="details" type="xsd:string"/>
+            <xsd:element name="context" type="AwsMetering_ns:ConvertigoErrorContext"/>
+            <xsd:element name="exception" type="xsd:string"/>
+            <xsd:element name="stacktrace" type="xsd:string"/>
+        </xsd:sequence>
+        <xsd:attribute name="project" type="xsd:string"/>
+        <xsd:attribute name="connector" type="xsd:string"/>
+        <xsd:attribute name="transaction" type="xsd:string"/>
+        <xsd:attribute name="sequence" type="xsd:string"/>
+        <xsd:attribute name="type">
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="c8o"/>
+                    <xsd:enumeration value="project"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:attribute>
+    </xsd:complexType>
+</xsd:schema>

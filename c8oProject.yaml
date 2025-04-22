@@ -4,9 +4,14 @@
   contextTimeout: 59
   corsOrigin: =Origin
   httpSessionTimeout: 60
-  version: 1.0
-  ↓void [connectors.SqlConnector]: 🗏 connectors/void.yaml
+  version: 2025.04.22
+  ↓billing [connectors.SqlConnector-1744897721239]: 🗏 connectors/billing.yaml
+  ↓HTTP [connectors.HttpConnector-1745329131672]: 🗏 connectors/HTTP.yaml
   ↓CheckEntitlement [sequences.GenericSequence]: 🗏 sequences/CheckEntitlement.yaml
   ↓CheckJWT [sequences.GenericSequence]: 🗏 sequences/CheckJWT.yaml
+  ↓MakeJWE [sequences.GenericSequence-1744800995591]: 🗏 sequences/MakeJWE.yaml
   ↓RegisterUsage [sequences.GenericSequence]: 🗏 sequences/RegisterUsage.yaml
   ↓ReportUsageToAWSMarketPlace [sequences.GenericSequence]: 🗏 sequences/ReportUsageToAWSMarketPlace.yaml
+  ↓UpdateKeys [sequences.GenericSequence-1744794871566]: 🗏 sequences/UpdateKeys.yaml
+  ↓AwsMeteringCloud_reference [references.ProjectSchemaReference]: 
+    projectName: AwsMeteringCloud=git@github.com:convertigo/c8oprj-aws-metering-cloud.git:branch=master

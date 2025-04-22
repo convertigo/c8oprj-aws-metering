@@ -1,0 +1,46 @@
+↑default: true
+connectionPool: false
+jdbcDriverClassName: org.postgresql.Driver
+jdbcURL: jdbc:postgresql://${metering.host=c8o-convertigo-timescaledb}/c8oAnalytics
+jdbcUserName: postgres
+jdbcUserPassword: x3f252321e465503ce46da2f3c8b6f88b
+keepConnectionAliveAfterTransaction: false
+↓CountUsers [transactions.SqlTransaction-1701018823748]: 
+  ↑default: true
+  comment: Count users on a day by day basis with new added users and cumulated users
+  sqlQuery: |
+    SELECT 
+        "Day",
+        COUNT("userName") AS "DailyDistinctUsers",
+        SUM(COUNT("userName")) OVER (ORDER BY "Day") AS "CumulativeDistinctUsers",
+        NOW() AS "Now"	
+    FROM (
+    	SELECT DISTINCT ON ("userName")
+    		"userName",
+    	    DATE("creationDate") AS "Day"
+    	FROM 
+    	    hticket
+    	WHERE 
+    	    "connectorName" = 'stop'
+    	    AND "userName" <> ''
+    	    AND "creationDate" BETWEEN 
+    	        TIMESTAMP '{{startDate}}'
+    	        AND (TIMESTAMP '{{endDate}}' + INTERVAL '1 day')
+    	ORDER BY 
+    	    "userName", "creationDate"
+    ) subquery
+    GROUP BY "Day"
+    ORDER BY "Day";
+  ↓TC [core.TestCase]: 
+    ↓startDate [variables.TestCaseVariable-1744899027977]: 
+      description: startDate
+      value: 2025-04-01
+    ↓endDate [variables.TestCaseVariable-1744899027980]: 
+      description: endDate
+      value: 2025-04-30
+  ↓startDate [variables.RequestableVariable-1744899027996]: 
+    comment: A start date in the YYYY-MM-DD format
+    description: startDate
+  ↓endDate [variables.RequestableVariable-1744899027999]: 
+    comment: An end date in the YYYY-MM-DD format
+    description: endDate
