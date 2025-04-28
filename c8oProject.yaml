@@ -13,5 +13,3 @@
   ↓RegisterUsage [sequences.GenericSequence]: 🗏 sequences/RegisterUsage.yaml
   ↓ReportUsageToAWSMarketPlace [sequences.GenericSequence]: 🗏 sequences/ReportUsageToAWSMarketPlace.yaml
   ↓UpdateKeys [sequences.GenericSequence-1744794871566]: 🗏 sequences/UpdateKeys.yaml
-  ↓AwsMeteringCloud_reference [references.ProjectSchemaReference]: 
-    projectName: AwsMeteringCloud=git@github.com:convertigo/c8oprj-aws-metering-cloud.git:branch=master
