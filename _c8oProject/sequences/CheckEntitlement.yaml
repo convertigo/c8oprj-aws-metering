@@ -10,7 +10,10 @@ comment: Check if this project runs on a AWS Marketplace and has been registered
     endDate = format.format(java.util.Calendar.getInstance().getTime());
     try {
     	if (mFile.exists()) {
-    		after = com.twinsoft.convertigo.engine.util.FileUtils.readFileToString(mFile, "UTF-8").trim();
+    		let txt = com.twinsoft.convertigo.engine.util.FileUtils.readFileToString(mFile, "UTF-8").trim();
+    		if (txt.startsWith("2")) {
+    			after = txt;
+    		}
     	}
     } catch(e) {
     }'
@@ -132,7 +135,9 @@ comment: Check if this project runs on a AWS Marketplace and has been registered
   ↓Write [steps.SimpleStep-1746010077056]: 
     expression: |
       'try {
-      	com.twinsoft.convertigo.engine.util.FileUtils.writeStringToFile(mFile, Now, "UTF-8");
+      	if (now.startsWith(''2'')) {
+      		com.twinsoft.convertigo.engine.util.FileUtils.writeStringToFile(mFile, Now, "UTF-8");
+      	}
       } catch(e) {
       }'
 ↓success [steps.JsonFieldStep-1746009164896]: 

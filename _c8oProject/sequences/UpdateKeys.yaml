@@ -29,6 +29,7 @@ accessibility: Private
     			var twsKey = new TWSKey();
     			twsKey.CreateKey(52);
     			var keyInfos = twsKey.decypherbis(newKey);
+    			oldKeys.remove(newKey);
     			KeyManager.addKey(newKey, keyInfos);
     			log.info("key added: " + newKey);
     		} catch (e) {
