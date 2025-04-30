@@ -23,6 +23,7 @@ keepConnectionAliveAfterTransaction: false
     	WHERE 
     	    "connectorName" = 'stop'
     	    AND "userName" <> ''
+    	    AND "creationDate" > '{{after}}' 
     	    AND "creationDate" BETWEEN 
     	        TIMESTAMP '{{startDate}}'
     	        AND (TIMESTAMP '{{endDate}}' + INTERVAL '1 day')
@@ -38,9 +39,12 @@ keepConnectionAliveAfterTransaction: false
     ↓endDate [variables.TestCaseVariable-1744899027980]: 
       description: endDate
       value: 2025-04-30
+    ↓after [variables.TestCaseVariable-1746005221813]: 
+      value: 2025-04-27
   ↓startDate [variables.RequestableVariable-1744899027996]: 
     comment: A start date in the YYYY-MM-DD format
     description: startDate
   ↓endDate [variables.RequestableVariable-1744899027999]: 
     comment: An end date in the YYYY-MM-DD format
     description: endDate
+  ↓after [variables.RequestableVariable-1746005211590]: 

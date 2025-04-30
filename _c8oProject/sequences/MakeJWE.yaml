@@ -37,7 +37,8 @@ accessibility: Private
     		usageQuantity: usageQuantity,
     		awsRegion: java.lang.System.getenv("AWS_REGION"),
     		awsRoleArn: java.lang.System.getenv("AWS_ROLE_ARN"),
-    		convertigo: com.twinsoft.convertigo.engine.ProductVersion.fullProductVersion
+    		convertigo: com.twinsoft.convertigo.engine.ProductVersion.fullProductVersion,
+    		timestamp: java.lang.System.currentTimeMillis()
     	}));
     	const jweObject = new JWEObject(header, payload);
     	jweObject.encrypt(new RSAEncrypter(publicKey));

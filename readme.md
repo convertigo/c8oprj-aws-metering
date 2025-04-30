@@ -10,6 +10,7 @@ For more technical informations : [documentation](./project.md)
 
 - [Installation](#installation)
 - [Sequences](#sequences)
+    - [Auto](#auto)
     - [CheckEntitlement](#checkentitlement)
     - [CheckJWT](#checkjwt)
     - [MakeJWE](#makejwe)
@@ -46,9 +47,22 @@ For more technical informations : [documentation](./project.md)
 
 ## Sequences
 
+### Auto
+
+**variables**
+
+<table>
+<tr>
+<th>name</th><th>comment</th>
+</tr>
+<tr>
+<td>__nolog</td><td></td>
+</tr>
+</table>
+
 ### CheckEntitlement
 
-Check if this project runs on a AWS Marketaplce and has been registered
+Check if this project runs on a AWS Marketplace and has been registered
 
 ### CheckJWT
 

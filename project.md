@@ -33,6 +33,14 @@ comment
 </tr>
 <tr>
 <td>
+<img src="https://github.com/convertigo/convertigo/blob/develop/engine/src/com/twinsoft/convertigo/beans/variables/images/variable_color_16x16.png?raw=true "  alt="RequestableVariable" >&nbsp;after
+</td>
+<td>
+
+</td>
+</tr>
+<tr>
+<td>
 <img src="https://github.com/convertigo/convertigo/blob/develop/engine/src/com/twinsoft/convertigo/beans/variables/images/variable_color_16x16.png?raw=true "  alt="RequestableVariable" >&nbsp;endDate
 </td>
 <td>
@@ -110,12 +118,42 @@ comment
 <details><summary><span style="color:DarkGoldenRod"><i>Sequences</i></span></summary><blockquote><p>
 
 
-<details><summary><b>CheckEntitlement</b> : Check if this project runs on a AWS Marketaplce and has been registered</summary><blockquote><p>
+<details><summary><b>Auto</b></summary><blockquote><p>
+
+
+## ![](https://github.com/convertigo/convertigo/blob/develop/engine/src/com/twinsoft/convertigo/beans/sequences/images/genericsequence_color_16x16.png?raw=true "GenericSequence") Auto
+
+
+
+<span style="color:DarkGoldenRod">Variables</span>
+
+<table>
+<tr>
+<th>
+name
+</th>
+<th>
+comment
+</th>
+</tr>
+<tr>
+<td>
+<img src="https://github.com/convertigo/convertigo/blob/develop/engine/src/com/twinsoft/convertigo/beans/variables/images/variable_color_16x16.png?raw=true "  alt="RequestableVariable" >&nbsp;__nolog
+</td>
+<td>
+
+</td>
+</tr>
+</table>
+
+</p></blockquote></details>
+
+<details><summary><b>CheckEntitlement</b> : Check if this project runs on a AWS Marketplace and has been registered</summary><blockquote><p>
 
 
 ## ![](https://github.com/convertigo/convertigo/blob/develop/engine/src/com/twinsoft/convertigo/beans/sequences/images/genericsequence_color_16x16.png?raw=true "GenericSequence") CheckEntitlement
 
-Check if this project runs on a AWS Marketaplce and has been registered
+Check if this project runs on a AWS Marketplace and has been registered
 </p></blockquote></details>
 
 <details><summary><b>CheckJWT</b> : Check the JWT Token with the marketplace public key</summary><blockquote><p>

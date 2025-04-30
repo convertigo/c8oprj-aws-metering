@@ -1,21 +1,28 @@
 accessibility: Private
-comment: Check if this project runs on a AWS Marketaplce and has been registered
+comment: Check if this project runs on a AWS Marketplace and has been registered
 ↓Init [steps.SimpleStep-1745328392925]: 
   expression: |
+    'const mFile = new java.io.File(com.twinsoft.convertigo.engine.Engine.USER_WORKSPACE_PATH + "/configuration/meter.last");
     const format = new java.text.SimpleDateFormat("yyyy-MM-dd");
-    const first = java.util.Calendar.getInstance();
-    first.set(java.util.Calendar.DAY_OF_MONTH, 1);
-    startDate = format.format(first.getTime());
+    const start = java.util.Calendar.getInstance();
+    start.add(java.util.Calendar.DAY_OF_MONTH, -1);
+    after = startDate = format.format(start.getTime());
     endDate = format.format(java.util.Calendar.getInstance().getTime());
+    try {
+    	if (mFile.exists()) {
+    		after = com.twinsoft.convertigo.engine.util.FileUtils.readFileToString(mFile, "UTF-8").trim();
+    	}
+    } catch(e) {
+    }'
 ↓Call_Transaction [steps.TransactionStep-1745327925143]: 
   sourceTransaction: AwsMetering.billing.CountUsers
   ↓startDate [variables.StepVariable-1745327925145]: 
     comment: A start date in the YYYY-MM-DD format
     description: startDate
-    value: 
   ↓endDate [variables.StepVariable-1745327925147]: 
     comment: An end date in the YYYY-MM-DD format
     description: endDate
+  ↓after [variables.StepVariable-1746006034183]: 
 ↓Call_Sequence2 [steps.SequenceStep-1745327960565]: 
   sourceSequence: AwsMetering.ReportUsageToAWSMarketPlace
   ↓dimension [variables.StepVariable-1745327960567]: 
@@ -112,3 +119,37 @@ comment: Check if this project runs on a AWS Marketaplce and has been registered
         - xmlizable: 
           - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
           - com.twinsoft.convertigo.beans.common.XMLVector: 
+  ↓Now [steps.SimpleSourceStep-1746010121263]: 
+    sourceDefinition: 
+      - xmlizable: 
+        - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+        - com.twinsoft.convertigo.beans.common.XMLVector: 
+          - java.lang.String: 
+            - ↑value: 1745327925143
+          - java.lang.String: 
+            - ↑value: ./document/sql_output/row[last()]/Now/text()
+    variableName: Now
+  ↓Write [steps.SimpleStep-1746010077056]: 
+    expression: |
+      'try {
+      	com.twinsoft.convertigo.engine.util.FileUtils.writeStringToFile(mFile, Now, "UTF-8");
+      } catch(e) {
+      }'
+↓success [steps.JsonFieldStep-1746009164896]: 
+  key: 
+    - xmlizable: 
+      - ↑classname: com.twinsoft.convertigo.beans.steps.SmartType
+      - SmartType: 
+        - ↑mode: PLAIN
+        - →→: success
+  type: bool
+  value: 
+    - xmlizable: 
+      - ↑classname: com.twinsoft.convertigo.beans.steps.SmartType
+      - SmartType: 
+        - ↑mode: SOURCE
+        - com.twinsoft.convertigo.beans.common.XMLVector: 
+          - java.lang.String: 
+            - ↑value: 1745329362947
+          - java.lang.String: 
+            - ↑value: .//valid/text()

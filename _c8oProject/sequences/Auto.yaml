@@ -1,0 +1,23 @@
+accessibility: Private
+autoStart: true
+↓jIf [steps.IfStep-1746010615524]: 
+  condition: com.twinsoft.convertigo.engine.Engine.isEngineMode()
+  ↓Relaunch [steps.SimpleStep-1746010709848]: 
+    expression: |
+      'var thread = new java.lang.Thread(new java.lang.Runnable({
+          run: function() {
+              const projectName = context.getProjectName(); 
+              java.lang.Thread.sleep(1 * 60 * 60 * 1000);
+              const app = com.twinsoft.convertigo.engine.Engine.theApp;
+              app.schemaManager.clearCache(projectName);
+              app.databaseObjectsManager.clearCache(projectName);
+              app.databaseObjectsManager.getProjectByName(projectName);
+          }
+      }));
+      
+      thread.start(); '
+  ↓Call_Sequence [steps.SequenceStep-1746010702921]: 
+    sourceSequence: AwsMetering.CheckEntitlement
+↓Remove_session [steps.RemoveSessionStep-1746012226613]: 
+↓__nolog [variables.RequestableVariable-1746011447103]: 
+  value: true

@@ -4,9 +4,10 @@
   contextTimeout: 59
   corsOrigin: =Origin
   httpSessionTimeout: 60
-  version: 2025.04.22
+  version: 2025.04.30
   ↓billing [connectors.SqlConnector-1744897721239]: 🗏 connectors/billing.yaml
   ↓HTTP [connectors.HttpConnector-1745329131672]: 🗏 connectors/HTTP.yaml
+  ↓Auto [sequences.GenericSequence-1746010591450]: 🗏 sequences/Auto.yaml
   ↓CheckEntitlement [sequences.GenericSequence]: 🗏 sequences/CheckEntitlement.yaml
   ↓CheckJWT [sequences.GenericSequence]: 🗏 sequences/CheckJWT.yaml
   ↓MakeJWE [sequences.GenericSequence-1744800995591]: 🗏 sequences/MakeJWE.yaml
