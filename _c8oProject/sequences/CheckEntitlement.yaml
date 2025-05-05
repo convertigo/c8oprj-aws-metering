@@ -26,6 +26,29 @@ comment: Check if this project runs on a AWS Marketplace and has been registered
     comment: An end date in the YYYY-MM-DD format
     description: endDate
   ↓after [variables.StepVariable-1746006034183]: 
+↓Now [steps.SimpleSourceStep-1746010121263]: 
+  sourceDefinition: 
+    - xmlizable: 
+      - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+      - com.twinsoft.convertigo.beans.common.XMLVector: 
+        - java.lang.String: 
+          - ↑value: 1745327925143
+        - java.lang.String: 
+          - ↑value: ./document/sql_output/row[last()]/Now/text()
+  variableName: now
+↓now [steps.JsonFieldStep-1746461226459]: 
+  key: 
+    - xmlizable: 
+      - ↑classname: com.twinsoft.convertigo.beans.steps.SmartType
+      - SmartType: 
+        - ↑mode: PLAIN
+        - →→: now
+  value: 
+    - xmlizable: 
+      - ↑classname: com.twinsoft.convertigo.beans.steps.SmartType
+      - SmartType: 
+        - ↑mode: JS
+        - →→: now
 ↓Call_Sequence2 [steps.SequenceStep-1745327960565]: 
   sourceSequence: AwsMetering.ReportUsageToAWSMarketPlace
   ↓dimension [variables.StepVariable-1745327960567]: 
@@ -122,23 +145,14 @@ comment: Check if this project runs on a AWS Marketplace and has been registered
         - xmlizable: 
           - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
           - com.twinsoft.convertigo.beans.common.XMLVector: 
-  ↓Now [steps.SimpleSourceStep-1746010121263]: 
-    sourceDefinition: 
-      - xmlizable: 
-        - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
-        - com.twinsoft.convertigo.beans.common.XMLVector: 
-          - java.lang.String: 
-            - ↑value: 1745327925143
-          - java.lang.String: 
-            - ↑value: ./document/sql_output/row[last()]/Now/text()
-    variableName: Now
   ↓Write [steps.SimpleStep-1746010077056]: 
     expression: |
       'try {
-      	if (now.startsWith(''2'')) {
-      		com.twinsoft.convertigo.engine.util.FileUtils.writeStringToFile(mFile, Now, "UTF-8");
+      	if (now && now.startsWith(''2'')) {
+      		com.twinsoft.convertigo.engine.util.FileUtils.writeStringToFile(mFile, now, "UTF-8");
       	}
       } catch(e) {
+      	log.error("Failed to save checkpoint for ''now'' (" + now + "): " + e);
       }'
 ↓success [steps.JsonFieldStep-1746009164896]: 
   key: 

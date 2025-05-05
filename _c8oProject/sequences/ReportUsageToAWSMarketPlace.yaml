@@ -32,8 +32,8 @@ accessibility: Private
     		recordId = response.meteringRecordId();
     		log.warn("MeterUsage reported successfully. Usage Record ID: " + recordId);
     
-    		// Close the client
-    		meteringClient.close();
+    		// Close the client (disabled to prevent exception)
+    		// meteringClient.close();
     	} catch (e) {
     		log.error("MeterUsage failed: " + e);
     		recordId = "failed";

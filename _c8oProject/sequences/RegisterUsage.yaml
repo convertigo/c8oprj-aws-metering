@@ -30,8 +30,8 @@ comment: Call the AWS Market place register usage API and get A JWT Token
     		log.warn("RegisterUsage successful: " + response.toString());
     		JWT = response.signature();
     
-    		// Close the client
-    		meteringClient.close();
+    		// Close the client (disabled to prevent exception)
+    		// meteringClient.close();
     	} catch (e) {
     		log.error("RegisterUsage failed: " + e);
     		JWT = "failed";
