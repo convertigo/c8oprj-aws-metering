@@ -76,12 +76,15 @@ comment: Check if this project runs on a AWS Marketplace and has been registered
           - java.lang.String: 
             - ↑value: 1745327925143
           - java.lang.String: 
-            - ↑value: ./document/sql_output/row[Month = "{{{ previousMonth }}}"]/DistinctUsers/text()
+            - ↑value: ./document/sql_output/row[Months = "{{{ previousMonth }}}"]/DistinctUsers/text()
     variableName: recordedQuantity
   ↓min [steps.SimpleStep-1748270108715]: 
     expression: |
+      'if (typeof recordedQuantity == "undefined" || !recordedQuantity) {
+      	recordedQuantity = 0;
+      }
       usageQuantity = recordedQuantity = "" + Math.max(1, "" + recordedQuantity);
-      
+      '
   ↓Call_Sequence2 [steps.SequenceStep-1745327960565]: 
     sourceSequence: AwsMetering.ReportUsageToAWSMarketPlace
     ↓dimension [variables.StepVariable-1745327960567]: 

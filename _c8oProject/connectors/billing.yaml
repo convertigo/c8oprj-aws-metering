@@ -3,7 +3,7 @@ connectionPool: false
 jdbcDriverClassName: org.postgresql.Driver
 jdbcURL: jdbc:postgresql://${metering.host=c8o-convertigo-timescaledb}/c8oAnalytics
 jdbcUserName: postgres
-jdbcUserPassword: x03304b7830d1bbc5d89853b59175a8acf54d0c5c2e78f5148a392a03c7649df8
+jdbcUserPassword: x3f252321e465503ce46da2f3c8b6f88b
 keepConnectionAliveAfterTransaction: false
 ↓CountUsers [transactions.SqlTransaction-1701018823748]: 
   ↑default: true
