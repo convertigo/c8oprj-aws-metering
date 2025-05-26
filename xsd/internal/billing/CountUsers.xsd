@@ -19,33 +19,19 @@
     </xsd:complexType>
     <xsd:complexType name="billing__CountUsersRequestData">
         <xsd:sequence>
-            <xsd:element name="startDate" type="xsd:string">
-                <xsd:annotation>
-                    <xsd:documentation><![CDATA[A start date in the YYYY-MM-DD format]]></xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="endDate" type="xsd:string">
-                <xsd:annotation>
-                    <xsd:documentation><![CDATA[An end date in the YYYY-MM-DD format]]></xsd:documentation>
-                </xsd:annotation>
+            <xsd:element name="forMonth" type="xsd:string">
+                <xsd:annotation/>
             </xsd:element>
         </xsd:sequence>
     </xsd:complexType>
-    <xsd:complexType name="billing_CountUsers_document_sql_output_row_DayType">
+    <xsd:complexType name="billing_CountUsers_document_sql_output_row_MonthType">
         <xsd:simpleContent>
             <xsd:extension base="xsd:string">
                 <xsd:attribute default="string" name="type" type="xsd:string"/>
             </xsd:extension>
         </xsd:simpleContent>
     </xsd:complexType>
-    <xsd:complexType name="billing_CountUsers_document_sql_output_row_DailyDistinctUsersType">
-        <xsd:simpleContent>
-            <xsd:extension base="xsd:string">
-                <xsd:attribute default="string" name="type" type="xsd:string"/>
-            </xsd:extension>
-        </xsd:simpleContent>
-    </xsd:complexType>
-    <xsd:complexType name="billing_CountUsers_document_sql_output_row_CumulativeDistinctUsersType">
+    <xsd:complexType name="billing_CountUsers_document_sql_output_row_DistinctUsersType">
         <xsd:simpleContent>
             <xsd:extension base="xsd:string">
                 <xsd:attribute default="string" name="type" type="xsd:string"/>
@@ -61,16 +47,15 @@
     </xsd:complexType>
     <xsd:complexType name="billing_CountUsers_document_sql_output_rowType">
         <xsd:sequence>
-            <xsd:element minOccurs="0" name="Day" type="AwsMetering_ns:billing_CountUsers_document_sql_output_row_DayType"/>
-            <xsd:element minOccurs="0" name="DailyDistinctUsers" type="AwsMetering_ns:billing_CountUsers_document_sql_output_row_DailyDistinctUsersType"/>
-            <xsd:element minOccurs="0" name="CumulativeDistinctUsers" type="AwsMetering_ns:billing_CountUsers_document_sql_output_row_CumulativeDistinctUsersType"/>
+            <xsd:element minOccurs="0" name="Month" type="AwsMetering_ns:billing_CountUsers_document_sql_output_row_MonthType"/>
+            <xsd:element minOccurs="0" name="DistinctUsers" type="AwsMetering_ns:billing_CountUsers_document_sql_output_row_DistinctUsersType"/>
             <xsd:element minOccurs="0" name="Now" type="AwsMetering_ns:billing_CountUsers_document_sql_output_row_NowType"/>
         </xsd:sequence>
         <xsd:attribute default="object" name="type" type="xsd:string"/>
     </xsd:complexType>
     <xsd:complexType name="billing_CountUsers_document_sql_outputType">
         <xsd:sequence>
-            <xsd:element minOccurs="0" name="row" type="AwsMetering_ns:billing_CountUsers_document_sql_output_rowType"/>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="row" type="AwsMetering_ns:billing_CountUsers_document_sql_output_rowType"/>
         </xsd:sequence>
         <xsd:attribute default="array" name="type" type="xsd:string"/>
     </xsd:complexType>

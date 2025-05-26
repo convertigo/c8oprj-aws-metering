@@ -3,48 +3,40 @@ connectionPool: false
 jdbcDriverClassName: org.postgresql.Driver
 jdbcURL: jdbc:postgresql://${metering.host=c8o-convertigo-timescaledb}/c8oAnalytics
 jdbcUserName: postgres
-jdbcUserPassword: x3f252321e465503ce46da2f3c8b6f88b
+jdbcUserPassword: x03304b7830d1bbc5d89853b59175a8acf54d0c5c2e78f5148a392a03c7649df8
 keepConnectionAliveAfterTransaction: false
 ↓CountUsers [transactions.SqlTransaction-1701018823748]: 
   ↑default: true
   comment: Count users on a day by day basis with new added users and cumulated users
   sqlQuery: |
+    WITH bounds AS (
+      SELECT 
+        DATE_TRUNC('month', TO_DATE('{{currentMonth}}', 'YYYY-MM')) - INTERVAL '1 month' AS start_date,
+        DATE_TRUNC('month', TO_DATE('{{currentMonth}}', 'YYYY-MM')) + INTERVAL '1 month' AS end_date
+    ),
+    hticket_filtered AS (
+      SELECT
+        "userName",
+        DATE_TRUNC('month', "creationDate") AS month
+      FROM 
+        hticket, bounds
+      WHERE 
+        "connectorName" = 'stop'
+        AND "userName" <> ''
+        AND "creationDate" >= bounds.start_date
+        AND "creationDate" < bounds.end_date
+    )
     SELECT 
-        "Day",
-        COUNT("userName") AS "DailyDistinctUsers",
-        SUM(COUNT("userName")) OVER (ORDER BY "Day") AS "CumulativeDistinctUsers",
-        NOW() AS "Now"	
-    FROM (
-    	SELECT DISTINCT ON ("userName")
-    		"userName",
-    	    DATE("creationDate") AS "Day"
-    	FROM 
-    	    hticket
-    	WHERE 
-    	    "connectorName" = 'stop'
-    	    AND "userName" <> ''
-    	    AND "creationDate" > '{{after}}' 
-    	    AND "creationDate" BETWEEN 
-    	        TIMESTAMP '{{startDate}}'
-    	        AND (TIMESTAMP '{{endDate}}' + INTERVAL '1 day')
-    	ORDER BY 
-    	    "userName", "creationDate"
-    ) subquery
-    GROUP BY "Day"
-    ORDER BY "Day";
+        TO_CHAR(month, 'YYYY-MM') AS "Month",
+        COUNT(DISTINCT "userName") AS "DistinctUsers",
+        NOW() AS "Now"
+    FROM 
+        hticket_filtered
+    GROUP BY month
+    ORDER BY month;
   ↓TC [core.TestCase]: 
-    ↓startDate [variables.TestCaseVariable-1744899027977]: 
+    ↓currentMonth [variables.TestCaseVariable-1744899027977]: 
       description: startDate
-      value: 2025-04-01
-    ↓endDate [variables.TestCaseVariable-1744899027980]: 
-      description: endDate
-      value: 2025-04-30
-    ↓after [variables.TestCaseVariable-1746005221813]: 
-      value: 2025-04-27
-  ↓startDate [variables.RequestableVariable-1744899027996]: 
-    comment: A start date in the YYYY-MM-DD format
-    description: startDate
-  ↓endDate [variables.RequestableVariable-1744899027999]: 
-    comment: An end date in the YYYY-MM-DD format
-    description: endDate
-  ↓after [variables.RequestableVariable-1746005211590]: 
+      value: 2025-05
+  ↓currentMonth [variables.RequestableVariable-1748254180132]: 
+    description: currentMonth

@@ -33,11 +33,15 @@ accessibility: Private
     		version: version,
     		JWT: JWT,
     		recordId: recordId,
+    		recordedQuantity: recordedQuantity,
+    		previousMonth: previousMonth,
     		dimension: dimension,
     		usageQuantity: usageQuantity,
+    		currentMonth: currentMonth,
     		awsRegion: java.lang.System.getenv("AWS_REGION"),
     		awsRoleArn: java.lang.System.getenv("AWS_ROLE_ARN"),
     		convertigo: com.twinsoft.convertigo.engine.ProductVersion.fullProductVersion,
+    		now: now,
     		timestamp: java.lang.System.currentTimeMillis()
     	}));
     	const jweObject = new JWEObject(header, payload);
@@ -75,7 +79,11 @@ accessibility: Private
   value: 1
 ↓JWT [variables.RequestableVariable-1745325330677]: 
 ↓recordId [variables.RequestableVariable-1745325361318]: 
+↓recordedQuantity [variables.RequestableVariable-1748265884437]: 
+↓now [variables.RequestableVariable-1748267132342]: 
 ↓dimension [variables.RequestableVariable-1745325441185]: 
   value: USER
 ↓usageQuantity [variables.RequestableVariable-1745325441188]: 
   value: 0
+↓currentMonth [variables.RequestableVariable-1748268090781]: 
+↓previousMonth [variables.RequestableVariable-1748268108988]: 

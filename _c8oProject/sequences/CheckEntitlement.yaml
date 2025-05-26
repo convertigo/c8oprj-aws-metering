@@ -2,30 +2,47 @@ accessibility: Private
 comment: Check if this project runs on a AWS Marketplace and has been registered
 ↓Init [steps.SimpleStep-1745328392925]: 
   expression: |
-    'const mFile = new java.io.File(com.twinsoft.convertigo.engine.Engine.USER_WORKSPACE_PATH + "/configuration/meter.last");
-    const format = new java.text.SimpleDateFormat("yyyy-MM-dd");
-    const start = java.util.Calendar.getInstance();
-    start.add(java.util.Calendar.DAY_OF_MONTH, -1);
-    after = startDate = format.format(start.getTime());
-    endDate = format.format(java.util.Calendar.getInstance().getTime());
-    try {
-    	if (mFile.exists()) {
-    		let txt = com.twinsoft.convertigo.engine.util.FileUtils.readFileToString(mFile, "UTF-8").trim();
-    		if (txt.startsWith("2")) {
-    			after = txt;
+    'with (new JavaImporter(
+    	com.twinsoft.convertigo.engine.Engine,
+    	com.twinsoft.convertigo.engine.util.FileUtils,
+    	java.io.File,
+    	java.text.SimpleDateFormat,
+    	java.util.Calendar
+    )) {
+    	meterFile = new File(Engine.USER_WORKSPACE_PATH + "/configuration/meter.last");
+    	const format = new SimpleDateFormat("yyyy-MM-dd");
+    	const forMonthFormat = new SimpleDateFormat("yyyy-MM");
+    	now = Calendar.getInstance();
+    	const today = format.format(now.getTime());
+    	
+    	const prevMonth = Calendar.getInstance();
+    	prevMonth.add(Calendar.MONTH, -1);
+    	previousMonth = "" + forMonthFormat.format(prevMonth.getTime());
+    	
+    	currentMonth = "" + forMonthFormat.format(now.getTime());
+    	let specialReportMode = false;
+    	let alreadyReported = false;
+    	
+    	try {
+    		if (meterFile.exists()) {
+    			let txt = FileUtils.readFileToString(meterFile, "UTF-8").trim();
+    			if (txt == previousMonth) {
+    				alreadyReported = true;
+    			}
     		}
+    	} catch (e) {
+    		log.error("Failed to load checkpoint for ''alreadyReported'': " + e);
     	}
-    } catch(e) {
-    }'
+    	
+    	if (alreadyReported) {
+    		previousMonth = null;
+    	}
+    }
+    '
 ↓Call_Transaction [steps.TransactionStep-1745327925143]: 
   sourceTransaction: AwsMetering.billing.CountUsers
-  ↓startDate [variables.StepVariable-1745327925145]: 
-    comment: A start date in the YYYY-MM-DD format
-    description: startDate
-  ↓endDate [variables.StepVariable-1745327925147]: 
-    comment: An end date in the YYYY-MM-DD format
-    description: endDate
-  ↓after [variables.StepVariable-1746006034183]: 
+  ↓currentMonth [variables.StepVariable-1748264717693]: 
+    description: currentMonth
 ↓Now [steps.SimpleSourceStep-1746010121263]: 
   sourceDefinition: 
     - xmlizable: 
@@ -49,11 +66,9 @@ comment: Check if this project runs on a AWS Marketplace and has been registered
       - SmartType: 
         - ↑mode: JS
         - →→: now
-↓Call_Sequence2 [steps.SequenceStep-1745327960565]: 
-  sourceSequence: AwsMetering.ReportUsageToAWSMarketPlace
-  ↓dimension [variables.StepVariable-1745327960567]: 
-    value: USERS
-  ↓usageQuantity [variables.StepVariable-1745327960569]: 
+↓jIf [steps.IfStep-1748265008491]: 
+  condition: previousMonth != null
+  ↓recordedQuantity [steps.SimpleSourceStep-1748270050133]: 
     sourceDefinition: 
       - xmlizable: 
         - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
@@ -61,8 +76,29 @@ comment: Check if this project runs on a AWS Marketplace and has been registered
           - java.lang.String: 
             - ↑value: 1745327925143
           - java.lang.String: 
-            - ↑value: ./document/sql_output/row[last()]/CumulativeDistinctUsers/text()
-    value: 0
+            - ↑value: ./document/sql_output/row[Month = "{{{ previousMonth }}}"]/DistinctUsers/text()
+    variableName: recordedQuantity
+  ↓min [steps.SimpleStep-1748270108715]: 
+    expression: |
+      usageQuantity = recordedQuantity = "" + Math.max(1, "" + recordedQuantity);
+      
+  ↓Call_Sequence2 [steps.SequenceStep-1745327960565]: 
+    sourceSequence: AwsMetering.ReportUsageToAWSMarketPlace
+    ↓dimension [variables.StepVariable-1745327960567]: 
+      value: USERS
+    ↓usageQuantity [variables.StepVariable-1745327960569]: 
+  ↓Write [steps.SimpleStep-1746010077056]: 
+    expression: |
+      'with (new JavaImporter(
+      	com.twinsoft.convertigo.engine.util.FileUtils,
+      )) {
+      	try {
+      		FileUtils.writeStringToFile(meterFile, previousMonth, "UTF-8");
+      	} catch(e) {
+      		log.error("Failed to save checkpoint for ''previousMonth'' (" + previousMonth + "): " + e);
+      	}
+      }
+      '
 ↓Call_Sequence [steps.SequenceStep-1742834759109]: 
   sourceSequence: AwsMetering.RegisterUsage
 ↓Call_Sequence3 [steps.SequenceStep-1745328064179]: 
@@ -87,6 +123,8 @@ comment: Check if this project runs on a AWS Marketplace and has been registered
             - ↑value: 1745327960565
           - java.lang.String: 
             - ↑value: ./document/recordId/text()
+    value: no record
+  ↓recordedQuantity [variables.StepVariable-1748267165139]: 
   ↓dimension [variables.StepVariable-1745328064187]: 
     value: USERS
   ↓usageQuantity [variables.StepVariable-1745328064189]: 
@@ -97,8 +135,11 @@ comment: Check if this project runs on a AWS Marketplace and has been registered
           - java.lang.String: 
             - ↑value: 1745327925143
           - java.lang.String: 
-            - ↑value: ./document/sql_output/row[last()]/CumulativeDistinctUsers/text()
+            - ↑value: ./document/sql_output/row[Month = "{{{ currentMonth }}}"]/DistinctUsers/text()
     value: 0
+  ↓now [variables.StepVariable-1748267145446]: 
+  ↓currentMonth [variables.StepVariable-1748268129538]: 
+  ↓previousMonth [variables.StepVariable-1748268129540]: 
 ↓Call_Transaction1 [steps.TransactionStep-1745329362947]: 
   sourceTransaction: AwsMetering.HTTP.Report
   ↓sequence [variables.StepVariable-1745329362949]: 
@@ -145,15 +186,6 @@ comment: Check if this project runs on a AWS Marketplace and has been registered
         - xmlizable: 
           - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
           - com.twinsoft.convertigo.beans.common.XMLVector: 
-  ↓Write [steps.SimpleStep-1746010077056]: 
-    expression: |
-      'try {
-      	if (now && now.startsWith(''2'')) {
-      		com.twinsoft.convertigo.engine.util.FileUtils.writeStringToFile(mFile, now, "UTF-8");
-      	}
-      } catch(e) {
-      	log.error("Failed to save checkpoint for ''now'' (" + now + "): " + e);
-      }'
 ↓success [steps.JsonFieldStep-1746009164896]: 
   key: 
     - xmlizable: 
