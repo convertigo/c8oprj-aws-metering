@@ -65,7 +65,7 @@ comment: Check if this project runs on a AWS Marketplace and has been registered
       - ↑classname: com.twinsoft.convertigo.beans.steps.SmartType
       - SmartType: 
         - ↑mode: JS
-        - →→: now
+        - →→: 'now ? now : ("" + new Date())'
 ↓jIf [steps.IfStep-1748265008491]: 
   condition: previousMonth != null
   ↓recordedQuantity [steps.SimpleSourceStep-1748270050133]: 
